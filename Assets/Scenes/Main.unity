@@ -275,8 +275,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 0.61764705, g: 0.8417849, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 2.3
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -431,6 +431,17 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c610f6da9d882647a47873f57e037ee, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &622265920 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114989186780318924, guid: 7c610f6da9d882647a47873f57e037ee,
+    type: 2}
+  m_PrefabInternal: {fileID: 622265919}
+  m_Script: {fileID: 11500000, guid: f58d4489bce491342bd18e7d4dbc8f37, type: 3}
+--- !u!95 &622265921 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95311897925716286, guid: 7c610f6da9d882647a47873f57e037ee,
+    type: 2}
+  m_PrefabInternal: {fileID: 622265919}
 --- !u!1 &623989609
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +743,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &908610815 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1062077350788708, guid: 7c610f6da9d882647a47873f57e037ee,
+    type: 2}
+  m_PrefabInternal: {fileID: 622265919}
+--- !u!114 &908610816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 908610815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec0b548a86e19343a44b5f46cba695e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &908610819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 908610815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2491332f640382048b3d6d607ba9f35c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fillWaitImgImage1: {fileID: 1798311305}
+  _fillWaitImgImage2: {fileID: 75935377}
+  _fillWaitImgImage3: {fileID: 1775749545}
+  _fillWaitImgImage4: {fileID: 1799430425}
+  _fillWaitImgImage5: {fileID: 1493566325}
+  _fillWaitImgImage6: {fileID: 973797062}
+  anim: {fileID: 622265921}
+  _playerMove: {fileID: 622265920}
 --- !u!1 &973797060
 GameObject:
   m_ObjectHideFlags: 0

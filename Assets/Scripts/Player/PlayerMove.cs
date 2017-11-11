@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float rotationSpeed = 15f;
     bool _canMove;
-    bool _finishedMovement = false;
+    bool _finishedMovement = true;
 
     Vector3 _targetPos = Vector3.zero;
     Vector3 _playerMotion = Vector3.zero;
@@ -47,24 +47,29 @@ public class PlayerMove : MonoBehaviour
             _height -= Gravity * Time.deltaTime;
     }
 
+    #region CheckIfFinishedMovement
+
     void CheckIfFinishedMovement()
     {
         if (!_finishedMovement)
         {
             if (!anim.IsInTransition(0) && !anim.GetCurrentAnimatorStateInfo(0).IsName("Stand") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
             {
-                // normalized time of animation is represented from 0 to 1
-                // 0 is the begining of animation
+                // normalized time of the animation is represented from 0 to 1, ... 0 is the beginning of the animation
                 _finishedMovement = true;
             }
-            else
-            {
-                MoveThePlayer();
-                _playerMotion.y = _height * Time.deltaTime;
-                collisionFlags = charController.Move(_playerMotion);
-            }
+        }
+        else
+        {
+            MoveThePlayer();
+            _playerMotion.y = _height * Time.deltaTime;
+            collisionFlags = charController.Move(_playerMotion);
         }
     }
+
+    #endregion
+
+    #region MoveThePlayer
 
     void MoveThePlayer()
     {
@@ -103,7 +108,25 @@ public class PlayerMove : MonoBehaviour
         {
             _playerMotion.Set(0.0f, 0.0f, 0.0f);
             anim.SetFloat("Walk", 0.0f);
-        }
+        } 
+
         charController.Move(_playerMotion);
+    }
+    #endregion
+    public bool FinishedMovement
+    {
+        get { return _finishedMovement; }
+        set { _finishedMovement = value; }
+    }
+
+    public Vector3 TargetPosition
+    {
+        get { return _targetPos; }
+        set { _targetPos = value; }
+    }
+
+    public float RotationSpeed
+    {
+        get { return rotationSpeed; }
     }
 }
