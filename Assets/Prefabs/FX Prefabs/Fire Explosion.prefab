@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4138734786397872}
   - component: {fileID: 82422062527687078}
+  - component: {fileID: 114958974351499752}
   m_Layer: 0
   m_Name: Fire Explosion
   m_TagString: explosion
@@ -337,6 +338,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114958974351499752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1295225198179992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b2fcbc9fc9d2445b34e4a9482dff69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 2
 --- !u!198 &198069162605225522
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 468506}
   - component: {fileID: 19836898}
+  - component: {fileID: 114262889364002928}
   - component: {fileID: 19945528}
   m_Layer: 0
   m_Name: Hit
@@ -20671,3 +20672,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 136674}
   m_IsPrefabParent: 1
+--- !u!114 &114262889364002928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b2fcbc9fc9d2445b34e4a9482dff69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 1.1
