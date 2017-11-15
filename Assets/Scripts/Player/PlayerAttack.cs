@@ -122,8 +122,7 @@ public class PlayerAttack : MonoBehaviour
                 targetPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             }
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position),
-                _playerMove.RotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), _playerMove.RotationSpeed * Time.deltaTime);
         }
     } // check input
 

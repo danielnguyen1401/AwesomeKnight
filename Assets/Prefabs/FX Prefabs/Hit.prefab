@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 468506}
   - component: {fileID: 19836898}
   - component: {fileID: 114262889364002928}
+  - component: {fileID: 114968140762762972}
   - component: {fileID: 19945528}
   m_Layer: 0
   m_Name: Hit
@@ -20684,3 +20685,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 1.1
+--- !u!114 &114968140762762972
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0436a319207907a4ca51c634f8f08610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _radius: 0.3
+  _damageAmount: 15

@@ -16,17 +16,30 @@ public class EnemyControlAnotherWay : MonoBehaviour
     private Transform _playerTarget;
     private float _currentAttackTime;
     private int _walkIndex;
-    
+    private EnemyHealth _enemyHealth;
 
     private void Awake()
     {
         _playerTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _enemyHealth = GetComponent<EnemyHealth>();
     }
 
     private void Update()
     {
-        
-        MoveAndAttack();
+        if (_enemyHealth.Health > 0)
+        {
+            MoveAndAttack();
+        }
+        else
+        {
+            _anim.SetBool("Death", true);
+            _agent.enabled = false;
+            if (!_anim.IsInTransition(0) && _anim.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
+                _anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+            {
+                Destroy(gameObject, 2f);
+            }
+        }
     }
 
     private void MoveAndAttack()
@@ -65,9 +78,11 @@ public class EnemyControlAnotherWay : MonoBehaviour
                 _agent.isStopped = true;
                 _anim.SetBool("Run", false);
 
-                Vector3 targetPos = new Vector3(_playerTarget.position.x, transform.position.y, _playerTarget.position.z);
+                Vector3 targetPos = new Vector3(_playerTarget.position.x, transform.position.y,
+                    _playerTarget.position.z);
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), _rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                    Quaternion.LookRotation(targetPos - transform.position), _rotateSpeed * Time.deltaTime);
 
                 if (_currentAttackTime >= _waitAttackTime)
                 {

@@ -2,7 +2,7 @@
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float Health = 100f;
+    private float _health = 100f;
 
     void Start()
     {
@@ -10,5 +10,21 @@ public class EnemyHealth : MonoBehaviour
 
     void Update()
     {
+    }
+
+    public void TakeDamage(float amount)
+    {
+        _health -= amount;
+        if (_health <= 0)
+        {
+            _health = 0;
+        }
+        Debug.Log("Health: " + _health);
+    }
+
+    public float Health
+    {
+        get { return _health; }
+        set { _health = value; }
     }
 }

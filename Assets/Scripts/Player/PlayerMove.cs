@@ -4,10 +4,10 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] Animator anim;
     [SerializeField] CharacterController charController;
-    CollisionFlags collisionFlags = CollisionFlags.None;
+    private CollisionFlags _collisionFlags = CollisionFlags.None;
 
     [SerializeField] float moveSpeed = 5f;
-    [SerializeField] float rotationSpeed = 15f;
+    [SerializeField] private float rotationSpeed = 15f;
     bool _canMove;
     bool _finishedMovement = true;
 
@@ -36,7 +36,7 @@ public class PlayerMove : MonoBehaviour
 
     bool IsGrounded()
     {
-        return collisionFlags == CollisionFlags.CollidedBelow ? true : false;
+        return _collisionFlags == CollisionFlags.CollidedBelow ? true : false;
     }
 
     void CalculateHeight()
@@ -53,7 +53,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (!_finishedMovement)
         {
-            if (!anim.IsInTransition(0) && !anim.GetCurrentAnimatorStateInfo(0).IsName("Stand") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
+            if (!anim.IsInTransition(0) && !anim.GetCurrentAnimatorStateInfo(0).IsName("Stand") &&
+                anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
             {
                 // normalized time of the animation is represented from 0 to 1, ... 0 is the beginning of the animation
                 _finishedMovement = true;
@@ -63,7 +64,7 @@ public class PlayerMove : MonoBehaviour
         {
             MoveThePlayer();
             _playerMotion.y = _height * Time.deltaTime;
-            collisionFlags = charController.Move(_playerMotion);
+            _collisionFlags = charController.Move(_playerMotion);
         }
     }
 
@@ -83,14 +84,13 @@ public class PlayerMove : MonoBehaviour
                 {
                     // screen point and world point is different
                     _playerToPointDistance = Vector3.Distance(transform.position, hit.point);
-                    if (_playerToPointDistance > 1.0f)
+                    if (_playerToPointDistance >= 1.0f)
                     {
                         _canMove = true;
                         _targetPos = hit.point;
                     }
                 }
             }
-            
         } // if mouse button down
 
         if (_canMove)
@@ -98,21 +98,24 @@ public class PlayerMove : MonoBehaviour
             anim.SetFloat("Walk", 1.0f);
             Vector3 targetTemp = new Vector3(_targetPos.x, transform.position.y, _targetPos.z);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetTemp - transform.position), rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.LookRotation(targetTemp - transform.position), rotationSpeed * Time.deltaTime);
             _playerMotion = transform.forward * moveSpeed * Time.deltaTime;
 
-            if (Vector3.Distance(transform.position, _targetPos) <= 0.1f)
+            if (Vector3.Distance(transform.position, _targetPos) <= 0.5f)
                 _canMove = false;
         }
         else
         {
             _playerMotion.Set(0.0f, 0.0f, 0.0f);
             anim.SetFloat("Walk", 0.0f);
-        } 
+        }
 
         charController.Move(_playerMotion);
     }
+
     #endregion
+
     public bool FinishedMovement
     {
         get { return _finishedMovement; }
