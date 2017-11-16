@@ -3,96 +3,99 @@ using UnityEngine.AI;
 
 public class EnemyControlAnotherWay : MonoBehaviour
 {
-    [SerializeField] private NavMeshAgent _agent;
-    [SerializeField] private Animator _anim;
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Animator anim;
 
     [SerializeField] private Transform[] WalkPoints;
-    [SerializeField] private float _walkDistance = 8f;
-    [SerializeField] private float _attackDistance = 2f;
-    [SerializeField] private float _waitAttackTime = 1f;
-    [SerializeField] private float _rotateSpeed = 5f;
+    [SerializeField] private float walkDistance = 8f;
+    [SerializeField] private float attackDistance = 1.5f;
+    [SerializeField] private float waitAttackTime = 1f;
+    [SerializeField] private float rotateSpeed = 5f;
 
-    private Vector3 _nextDestination;
-    private Transform _playerTarget;
-    private float _currentAttackTime;
-    private int _walkIndex;
-    private EnemyHealth _enemyHealth;
+    private Vector3 nextDestination;
+    private Transform playerTarget;
+    private PlayerHealth playerHealth;
+    private float currentAttackTime;
+    private int walkIndex;
+    private EnemyHealth enemyHealth;
 
     private void Awake()
     {
-        _playerTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        _enemyHealth = GetComponent<EnemyHealth>();
+        playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
+        enemyHealth = GetComponent<EnemyHealth>();
+        playerHealth = playerTarget.GetComponent<PlayerHealth>();
     }
 
     private void Update()
     {
-        if (_enemyHealth.Health > 0)
+        if (enemyHealth.Health > 0)
         {
-            MoveAndAttack();
+            if (playerTarget)
+                MoveAndAttack();
         }
         else
         {
-            _anim.SetBool("Death", true);
-            _agent.enabled = false;
-            if (!_anim.IsInTransition(0) && _anim.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
-                _anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+            anim.SetBool("Death", true);
+            agent.enabled = false;
+            if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
+                anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
             {
-                Destroy(gameObject, 2f);
+                Destroy(gameObject, 1.5f);
             }
         }
     }
 
     private void MoveAndAttack()
     {
-        var distanceEnemyToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
+        var distanceEnemyToPlayer = Vector3.Distance(transform.position, playerTarget.position);
 
-        if (distanceEnemyToPlayer > _walkDistance)
+        if (distanceEnemyToPlayer > walkDistance)
         {
-            if (_agent.remainingDistance <= 0.5f) // enemy walk around Walk positions
+            if (agent.remainingDistance <= 0.5f) // enemy walk around Walk positions
             {
-                _agent.isStopped = false;
-                _anim.SetBool("Walk", true);
-                _anim.SetBool("Run", false);
-                _anim.SetInteger("Atk", 0);
-                _nextDestination = WalkPoints[_walkIndex].position;
-                _agent.SetDestination(_nextDestination);
+                agent.isStopped = false;
+                anim.SetBool("Walk", true);
+                anim.SetBool("Run", false);
+                anim.SetInteger("Atk", 0);
+                nextDestination = WalkPoints[walkIndex].position;
+                agent.SetDestination(nextDestination);
 
-                if (_walkIndex == WalkPoints.Length - 1)
-                    _walkIndex = 0;
+                if (walkIndex == WalkPoints.Length - 1)
+                    walkIndex = 0;
                 else
-                    _walkIndex++;
+                    walkIndex++;
             }
         }
         else
         {
-            if (distanceEnemyToPlayer > _attackDistance) // run to the player
+            if (distanceEnemyToPlayer > attackDistance) // run to the player
             {
-                _agent.isStopped = false;
-                _anim.SetBool("Run", true);
-                _anim.SetBool("Walk", false);
-                _nextDestination = _playerTarget.position;
-                _agent.SetDestination(_nextDestination);
+                agent.isStopped = false;
+                anim.SetBool("Run", true);
+                anim.SetBool("Walk", false);
+                nextDestination = playerTarget.position;
+                agent.SetDestination(nextDestination);
             }
             else // Attack the player
             {
-                _agent.isStopped = true;
-                _anim.SetBool("Run", false);
+                agent.isStopped = true;
+                anim.SetBool("Run", false);
 
-                Vector3 targetPos = new Vector3(_playerTarget.position.x, transform.position.y,
-                    _playerTarget.position.z);
+                Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y,
+                    playerTarget.position.z);
 
                 transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.LookRotation(targetPos - transform.position), _rotateSpeed * Time.deltaTime);
+                    Quaternion.LookRotation(targetPos - transform.position), rotateSpeed * Time.deltaTime);
 
-                if (_currentAttackTime >= _waitAttackTime)
+                if (currentAttackTime >= waitAttackTime)
                 {
-                    _anim.SetInteger("Atk", Random.Range(1, 3));
-                    _currentAttackTime = 0;
+                    anim.SetInteger("Atk", Random.Range(1, 3));
+                    currentAttackTime = 0;
                 }
                 else
                 {
-                    _anim.SetInteger("Atk", 0);
-                    _currentAttackTime += Time.deltaTime;
+                    anim.SetInteger("Atk", 0);
+                    currentAttackTime += Time.deltaTime;
                 }
             }
         }

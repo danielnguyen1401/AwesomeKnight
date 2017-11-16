@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 114501977129348074}
   - component: {fileID: 114460412073674466}
   - component: {fileID: 114067110889504876}
+  - component: {fileID: 114130568364493906}
   m_Layer: 8
   m_Name: Warlord
   m_TagString: Untagged
@@ -1414,6 +1415,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54773aa1d8fb8f14093b384bda1abf70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 5
+--- !u!114 &114130568364493906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1094790786422640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c23f1a95e344a4db31da0d8746ea7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 10
+  damageDistance: 1.5
 --- !u!114 &114460412073674466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1425,16 +1440,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a02c846f1d1184f96ec843c3c85587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 195529909709305656}
-  _anim: {fileID: 95292483702666932}
+  agent: {fileID: 195529909709305656}
+  anim: {fileID: 95292483702666932}
   WalkPoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _walkDistance: 8
-  _attackDistance: 1.5
-  _waitAttackTime: 0.5
-  _rotateSpeed: 5
+  walkDistance: 8
+  attackDistance: 1.5
+  waitAttackTime: 1
+  rotateSpeed: 5
 --- !u!114 &114501977129348074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1446,16 +1461,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4edbd5c2f2da941b6813d41fa10391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 195529909709305656}
-  _anim: {fileID: 95292483702666932}
-  _alertAttackDistance: 8
-  _attackDistance: 1.5
-  _enemyToPlayerDistance: 15
-  _followDistance: 15
-  _waitAttackTime: 0
-  _moveSpeed: 2.5
-  _walkSpeed: 1
-  _rotateSpeed: 5
+  agent: {fileID: 195529909709305656}
+  anim: {fileID: 95292483702666932}
+  alertAttackDistance: 8
+  attackDistance: 1.5
+  enemyToPlayerDistance: 15
+  followDistance: 15
+  waitAttackTime: 0.5
+  moveSpeed: 2
+  walkSpeed: 1
+  rotateSpeed: 5
 --- !u!137 &137338681303800594
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

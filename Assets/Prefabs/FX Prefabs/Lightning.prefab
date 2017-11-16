@@ -372,11 +372,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436a319207907a4ca51c634f8f08610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyLayerMask:
+  enemyLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  _radius: 0.5
-  _damageAmount: 40
+  radius: 3
+  damageAmount: 10
 --- !u!198 &198059349408544312
 ParticleSystem:
   m_ObjectHideFlags: 1

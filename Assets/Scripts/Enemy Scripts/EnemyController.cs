@@ -3,75 +3,76 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private NavMeshAgent _agent;
-    [SerializeField] private Animator _anim;
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Animator anim;
 
-    [SerializeField] private float _alertAttackDistance = 8f;
-    [SerializeField] private float _attackDistance = 1.5f;
-    [SerializeField] private float _enemyToPlayerDistance = 15f;
-    [SerializeField] private float _followDistance = 15f;
-    [SerializeField] private float _waitAttackTime = 0.5f;
-    [SerializeField] private float _moveSpeed = 2f;
-    [SerializeField] private float _walkSpeed = 1f;
-    [SerializeField] private float _rotateSpeed = 5f;
+    [SerializeField] private float alertAttackDistance = 8f;
+    [SerializeField] private float attackDistance = 1.5f;
+    [SerializeField] private float enemyToPlayerDistance = 15f;
+    [SerializeField] private float followDistance = 15f;
+    [SerializeField] private float waitAttackTime = 0.5f;
+    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float walkSpeed = 1f;
+    [SerializeField] private float rotateSpeed = 5f;
 
+    private float currentAttackTime;
+    private EnemyState enemyCurrentState = EnemyState.Idle;
+    private EnemyState enemyLastState = EnemyState.Idle;
 
-    private float _currentAttackTime;
-    private EnemyState _enemyCurrentState = EnemyState.Idle;
-    private EnemyState _enemyLastState = EnemyState.Idle;
+    private bool finishedMovement = true;
 
-//    private bool _finishedAnim = true;
-    private bool _finishedMovement = true;
-
-    private Vector3 _initialPosition;
-    private Transform _playerTarget;
+    private Vector3 initialPosition;
+    private Transform playerTarget;
 
 //    private Vector3 _whereToMove = Vector3.zero;
-    private Vector3 _whereToNavigate = Vector3.zero;
+    private Vector3 whereToNavigate = Vector3.zero;
 
-    private EnemyHealth _enemyHealth;
+    private EnemyHealth enemyHealth;
 
     void Awake()
     {
-        _playerTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        _enemyHealth = GetComponent<EnemyHealth>();
+        playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
+        enemyHealth = GetComponent<EnemyHealth>();
 
-        _initialPosition = transform.position;
-        _whereToNavigate = transform.position;
+        initialPosition = transform.position;
+        whereToNavigate = transform.position;
     }
 
     void Update()
     {
-        if (_enemyHealth.Health <= 0)
-            _enemyCurrentState = EnemyState.Death;
+        if (enemyHealth.Health <= 0)
+            enemyCurrentState = EnemyState.Death;
 
-        if (_enemyCurrentState != EnemyState.Death) // if enemy is alive
+        if (enemyCurrentState != EnemyState.Death) // if enemy is alive and player is alive
         {
-            _enemyCurrentState = SetEnemyState(_enemyCurrentState, _enemyLastState, _enemyToPlayerDistance);
+            if (playerTarget)
+            {
+                enemyCurrentState = SetEnemyState(enemyCurrentState, enemyLastState, enemyToPlayerDistance);
 
-            if (_finishedMovement)
-            {
-                GetStateControl(_enemyCurrentState);
-            }
-            else
-            {
-                if (!_anim.IsInTransition(0) && _anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) // is in IDLE animation
+                if (finishedMovement)
+                    GetStateControl(enemyCurrentState);
+                else
                 {
-                    _finishedMovement = true;
-                }
-                else if (!_anim.IsInTransition(0) && _anim.GetCurrentAnimatorStateInfo(0).IsTag("Atk1") || _anim.GetCurrentAnimatorStateInfo(0).IsTag("Atk2"))
-                {
-                    _anim.SetInteger("Atk", 0);
+                    if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+                    {
+                        // is in IDLE animation
+                        finishedMovement = true;
+                    }
+                    else if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsTag("Atk1") ||
+                             anim.GetCurrentAnimatorStateInfo(0).IsTag("Atk2"))
+                    {
+                        anim.SetInteger("Atk", 0);
+                    }
                 }
             }
         }
         else // if the enemy is death
         {
-            _anim.SetBool("Death", true);
-            _agent.enabled = false;
+            anim.SetBool("Death", true);
+            agent.enabled = false;
 
-            if (!_anim.IsInTransition(0) && _anim.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
-                _anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+            if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
+                anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
             {
                 Destroy(gameObject, 2f);
             }
@@ -80,26 +81,26 @@ public class EnemyController : MonoBehaviour
 
     EnemyState SetEnemyState(EnemyState curState, EnemyState lastState, float enemyToPlayerDis)
     {
-        float initialDistance = Vector3.Distance(_initialPosition, transform.position);
-        enemyToPlayerDis = Vector3.Distance(transform.position, _playerTarget.position);
+        float initialDistance = Vector3.Distance(initialPosition, transform.position);
+        enemyToPlayerDis = Vector3.Distance(transform.position, playerTarget.position);
 
-        if (initialDistance > _followDistance)
+        if (initialDistance > followDistance)
         {
             lastState = curState;
             curState = EnemyState.GoBack;
         }
-        else if (enemyToPlayerDis <= _attackDistance)
+        else if (enemyToPlayerDis <= attackDistance)
         {
             lastState = curState;
             curState = EnemyState.Attack;
         }
-        else if (enemyToPlayerDis >= _alertAttackDistance && lastState == EnemyState.Pause ||
+        else if (enemyToPlayerDis >= alertAttackDistance && lastState == EnemyState.Pause ||
                  lastState == EnemyState.Attack)
         {
             lastState = curState;
             curState = EnemyState.Pause;
         }
-        else if (enemyToPlayerDis <= _alertAttackDistance && enemyToPlayerDis > _attackDistance)
+        else if (enemyToPlayerDis <= alertAttackDistance && enemyToPlayerDis > attackDistance)
         {
             if (curState != EnemyState.GoBack || lastState == EnemyState.Walk)
             {
@@ -107,7 +108,7 @@ public class EnemyController : MonoBehaviour
                 curState = EnemyState.Pause;
             }
         }
-        else if (enemyToPlayerDis > _alertAttackDistance && lastState != EnemyState.GoBack ||
+        else if (enemyToPlayerDis > alertAttackDistance && lastState != EnemyState.GoBack ||
                  lastState != EnemyState.Pause)
         {
             lastState = curState;
@@ -122,77 +123,78 @@ public class EnemyController : MonoBehaviour
         {
             if (curState != EnemyState.Attack)
             {
-                Vector3 targetPos = new Vector3(_playerTarget.position.x, transform.position.y, _playerTarget.position.z);
+                Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
 
                 if (Vector3.Distance(targetPos, transform.position) > 2.1f)
                 {
-                    _anim.SetBool("Walk", false);
-                    _anim.SetBool("Run", true);
+                    anim.SetBool("Walk", false);
+                    anim.SetBool("Run", true);
 
-                    _agent.speed = _moveSpeed;
-                    _agent.SetDestination(targetPos);
+                    agent.speed = moveSpeed;
+                    agent.SetDestination(targetPos);
                 }
             }
         }
         else if (curState == EnemyState.Attack)
         {
-            _anim.SetBool("Run", false);
+            anim.SetBool("Run", false);
 //            _whereToMove.Set(0, 0, 0);
-            Vector3 targetPos = new Vector3(_playerTarget.position.x, transform.position.y, _playerTarget.position.z);
+            Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), _rotateSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.LookRotation(targetPos - transform.position), rotateSpeed * Time.deltaTime);
 
-            _agent.speed = _walkSpeed;
-            _agent.SetDestination(transform.position);
+            agent.speed = walkSpeed;
+            agent.SetDestination(transform.position);
 
-            if (_currentAttackTime >= _waitAttackTime)
+            if (currentAttackTime >= waitAttackTime)
             {
                 int atkRange = Random.Range(1, 3);
-                _anim.SetInteger("Atk", atkRange);
+                anim.SetInteger("Atk", atkRange);
 //                _finishedAnim = false;
-                _currentAttackTime = 0;
+                currentAttackTime = 0;
             }
             else
             {
-                _anim.SetInteger("Atk", 0);
-                _currentAttackTime += Time.deltaTime;
+                anim.SetInteger("Atk", 0);
+                currentAttackTime += Time.deltaTime;
             }
         }
         else if (curState == EnemyState.GoBack)
         {
-            _anim.SetBool("Run", true);
+            anim.SetBool("Run", true);
 
-            Vector3 targetPos = new Vector3(_initialPosition.x, transform.position.y, _initialPosition.z);
-            _agent.speed = _moveSpeed;
-            _agent.SetDestination(targetPos);
+            Vector3 targetPos = new Vector3(initialPosition.x, transform.position.y, initialPosition.z);
+            agent.speed = moveSpeed;
+            agent.SetDestination(targetPos);
 
-            if (Vector3.Distance(targetPos, _initialPosition) <= 3.5f)
+            if (Vector3.Distance(targetPos, initialPosition) <= 3.5f)
             {
-                _enemyLastState = curState;
+                enemyLastState = curState;
                 curState = EnemyState.Walk;
             }
         }
         else if (curState == EnemyState.Walk)
         {
-            _anim.SetBool("Run", false);
-            _anim.SetBool("Walk", true);
+            anim.SetBool("Run", false);
+            anim.SetBool("Walk", true);
 
-            if (Vector3.Distance(transform.position, _whereToNavigate) <= 2.0f)
+            if (Vector3.Distance(transform.position, whereToNavigate) <= 2.0f)
             {
-                _whereToNavigate.x = Random.Range(_initialPosition.x - 5f, _initialPosition.x + 5f);
-                _whereToNavigate.z = Random.Range(_initialPosition.z - 5f, _initialPosition.z + 5f);
+                whereToNavigate.x = Random.Range(initialPosition.x - 5f, initialPosition.x + 5f);
+                whereToNavigate.z = Random.Range(initialPosition.z - 5f, initialPosition.z + 5f);
             }
             else
             {
-                _agent.speed = _walkSpeed;
-                _agent.SetDestination(_whereToNavigate);
+                agent.speed = walkSpeed;
+                agent.SetDestination(whereToNavigate);
             }
         }
         else
         {
-            _agent.isStopped = true;
-            _anim.SetBool("Run", false);
-            _anim.SetBool("Walk", false);
+            agent.isStopped = true;
+            anim.SetBool("Run", false);
+            anim.SetBool("Walk", false);
         }
     }
 }

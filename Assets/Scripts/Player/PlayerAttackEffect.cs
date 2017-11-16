@@ -21,7 +21,7 @@ public class PlayerAttackEffect : MonoBehaviour
     void Update()
     {
     }
-
+    // TODO: Instance FX using animation's event
     void GroundImpact()
     {
         Instantiate(_groundImpactFx, _groundImpactSpawn.position, Quaternion.identity);

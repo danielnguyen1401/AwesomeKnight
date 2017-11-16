@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 114989186780318924}
   - component: {fileID: 114113043921535192}
   - component: {fileID: 114173743205023826}
+  - component: {fileID: 114717496329736492}
   m_Layer: 0
   m_Name: Black Knight
   m_TagString: Player
@@ -2226,6 +2227,18 @@ MonoBehaviour:
   _fillWaitImgImage6: {fileID: 0}
   anim: {fileID: 95311897925716286}
   _playerMove: {fileID: 114989186780318924}
+--- !u!114 &114717496329736492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1062077350788708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad17ac29a2e0bd149ad92067ff018f8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!114 &114989186780318924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2237,8 +2250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f58d4489bce491342bd18e7d4dbc8f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 95311897925716286}
   charController: {fileID: 143971078826524382}
+  anim: {fileID: 95311897925716286}
   moveSpeed: 4
   rotationSpeed: 15
 --- !u!137 &137832891937931748
@@ -2329,7 +2342,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 1.2, z: -0.26}
+  m_Center: {x: 0, y: 1.1, z: -0.26}
 --- !u!198 &198778998215127510
 ParticleSystem:
   m_ObjectHideFlags: 1

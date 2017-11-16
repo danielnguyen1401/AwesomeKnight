@@ -542,60 +542,10 @@ Prefab:
       propertyPath: _fillWaitImgImage6
       value: 
       objectReference: {fileID: 973797062}
-    - target: {fileID: 143971078826524382, guid: 7c610f6da9d882647a47873f57e037ee,
+    - target: {fileID: 114717496329736492, guid: 7c610f6da9d882647a47873f57e037ee,
         type: 2}
-      propertyPath: m_Center.y
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114989186780318924, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 143971078826524382, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_Height
-      value: 2.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 143971078826524382, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_Radius
-      value: 0.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 143971078826524382, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_MinMoveDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 143971078826524382, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_Center.z
-      value: -0.26
-      objectReference: {fileID: 0}
-    - target: {fileID: 114113043921535192, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114173743205023826, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 95311897925716286, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_UpdateMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 95311897925716286, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 143971078826524382, guid: 7c610f6da9d882647a47873f57e037ee,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: maxHealth
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c610f6da9d882647a47873f57e037ee, type: 2}
@@ -1951,6 +1901,31 @@ Prefab:
       propertyPath: WalkPoints.Array.data[2]
       value: 
       objectReference: {fileID: 597262520}
+    - target: {fileID: 114501977129348074, guid: 4e18865eaba723e40814e6fcd688682f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114460412073674466, guid: 4e18865eaba723e40814e6fcd688682f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114067110889504876, guid: 4e18865eaba723e40814e6fcd688682f,
+        type: 2}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114460412073674466, guid: 4e18865eaba723e40814e6fcd688682f,
+        type: 2}
+      propertyPath: attackDistance
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130568364493906, guid: 4e18865eaba723e40814e6fcd688682f,
+        type: 2}
+      propertyPath: damageDistance
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e18865eaba723e40814e6fcd688682f, type: 2}
   m_IsPrefabParent: 0

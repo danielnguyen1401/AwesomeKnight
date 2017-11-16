@@ -7,26 +7,29 @@ public class CameraFollow : MonoBehaviour
 
     [SerializeField] Transform player;
 
-    float _targetHeight;
-    float _currentHeight;
-    float _currentRotation;
+    private float targetHeight;
+    private float currentHeight;
+    private float currentRotation;
 
     void Awake()
     {
-//        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+//        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        _targetHeight = player.position.y + follow_Height;
-        _currentRotation = transform.eulerAngles.y;
-        _currentHeight = Mathf.Lerp(transform.position.y, _targetHeight, 0.9f * Time.deltaTime);
+        if (player)
+        {
+            targetHeight = player.position.y + follow_Height;
+            currentRotation = transform.eulerAngles.y;
+            currentHeight = Mathf.Lerp(transform.position.y, targetHeight, 0.9f * Time.deltaTime);
 
-        Quaternion euler = Quaternion.Euler(0, _currentRotation, 0);
+            Quaternion euler = Quaternion.Euler(0, currentRotation, 0);
 
-        Vector3 targetPosition = player.position - (euler * Vector3.forward) * follow_Distance;
-        targetPosition.y = _currentHeight;
-        transform.position = targetPosition;
-        transform.LookAt(player);
+            Vector3 targetPosition = player.position - (euler * Vector3.forward) * follow_Distance;
+            targetPosition.y = currentHeight;
+            transform.position = targetPosition;
+            transform.LookAt(player);
+        }
     }
 }

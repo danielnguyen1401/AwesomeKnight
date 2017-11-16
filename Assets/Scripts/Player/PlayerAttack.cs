@@ -1,5 +1,4 @@
-﻿using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
@@ -45,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
                 _playerMove.FinishedMovement = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1)) // Ground Impact
         {
             _playerMove.TargetPosition = transform.position;
 
@@ -55,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
                 anim.SetInteger("Atk", 1);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) // Kick
         {
             _playerMove.TargetPosition = transform.position;
 
@@ -65,17 +64,17 @@ public class PlayerAttack : MonoBehaviour
                 anim.SetInteger("Atk", 2);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) // Fire Tornado
         {
             _playerMove.TargetPosition = transform.position;
 
             if (_playerMove.FinishedMovement && _fadeImages[2] != 1 && _canAttack)
             {
                 _fadeImages[2] = 1;
-                anim.SetInteger("Atk", 3);
+                anim.SetInteger("Atk", 3); 
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) // Fire Shield
         {
             _playerMove.TargetPosition = transform.position;
 
@@ -85,7 +84,7 @@ public class PlayerAttack : MonoBehaviour
                 anim.SetInteger("Atk", 4);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) // Health
         {
             _playerMove.TargetPosition = transform.position;
 

@@ -8,7 +8,7 @@ public class PointerDestroyer : MonoBehaviour
     void Start()
     {
 //        Destroy(gameObject, _distanceToDestroy);
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
 

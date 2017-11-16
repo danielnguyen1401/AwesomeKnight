@@ -2,21 +2,22 @@
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] Animator anim;
     [SerializeField] CharacterController charController;
-    private CollisionFlags _collisionFlags = CollisionFlags.None;
+    [SerializeField] Animator anim;
+    private CollisionFlags collisionFlags = CollisionFlags.None;
 
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 15f;
-    bool _canMove;
-    bool _finishedMovement = true;
+    bool canMove;
+    bool finishedMovement = true;
 
-    Vector3 _targetPos = Vector3.zero;
-    Vector3 _playerMotion = Vector3.zero;
+    Vector3 targetPos = Vector3.zero;
+    Vector3 playerMotion = Vector3.zero;
 
-    float _playerToPointDistance;
+
+    float playerToPointDistance;
     private const float Gravity = 9.8f;
-    private float _height;
+    private float height;
 
     void Awake()
     {
@@ -36,35 +37,35 @@ public class PlayerMove : MonoBehaviour
 
     bool IsGrounded()
     {
-        return _collisionFlags == CollisionFlags.CollidedBelow ? true : false;
+        return collisionFlags == CollisionFlags.CollidedBelow ? true : false;
     }
 
     void CalculateHeight()
     {
         if (IsGrounded())
-            _height = 0f;
+            height = 0f;
         else
-            _height -= Gravity * Time.deltaTime;
+            height -= Gravity * Time.deltaTime;
     }
 
     #region CheckIfFinishedMovement
 
     void CheckIfFinishedMovement()
     {
-        if (!_finishedMovement)
+        if (!finishedMovement)
         {
             if (!anim.IsInTransition(0) && !anim.GetCurrentAnimatorStateInfo(0).IsName("Stand") &&
                 anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
             {
                 // normalized time of the animation is represented from 0 to 1, ... 0 is the beginning of the animation
-                _finishedMovement = true;
+                finishedMovement = true;
             }
         }
         else
         {
             MoveThePlayer();
-            _playerMotion.y = _height * Time.deltaTime;
-            _collisionFlags = charController.Move(_playerMotion);
+            playerMotion.y = height * Time.deltaTime;
+            collisionFlags = charController.Move(playerMotion);
         }
     }
 
@@ -83,49 +84,49 @@ public class PlayerMove : MonoBehaviour
                 if (hit.collider is TerrainCollider)
                 {
                     // screen point and world point is different
-                    _playerToPointDistance = Vector3.Distance(transform.position, hit.point);
-                    if (_playerToPointDistance >= 1.0f)
+                    playerToPointDistance = Vector3.Distance(transform.position, hit.point);
+                    if (playerToPointDistance >= 1.0f)
                     {
-                        _canMove = true;
-                        _targetPos = hit.point;
+                        canMove = true;
+                        targetPos = hit.point;
                     }
                 }
             }
         } // if mouse button down
 
-        if (_canMove)
+        if (canMove)
         {
             anim.SetFloat("Walk", 1.0f);
-            Vector3 targetTemp = new Vector3(_targetPos.x, transform.position.y, _targetPos.z);
+            Vector3 targetTemp = new Vector3(targetPos.x, transform.position.y, targetPos.z);
 
             transform.rotation = Quaternion.Slerp(transform.rotation,
                 Quaternion.LookRotation(targetTemp - transform.position), rotationSpeed * Time.deltaTime);
-            _playerMotion = transform.forward * moveSpeed * Time.deltaTime;
+            playerMotion = transform.forward * moveSpeed * Time.deltaTime;
 
-            if (Vector3.Distance(transform.position, _targetPos) <= 0.5f)
-                _canMove = false;
+            if (Vector3.Distance(transform.position, targetPos) <= 0.5f)
+                canMove = false;
         }
         else
         {
-            _playerMotion.Set(0.0f, 0.0f, 0.0f);
+            playerMotion.Set(0.0f, 0.0f, 0.0f);
             anim.SetFloat("Walk", 0.0f);
         }
 
-        charController.Move(_playerMotion);
+        charController.Move(playerMotion);
     }
 
     #endregion
 
     public bool FinishedMovement
     {
-        get { return _finishedMovement; }
-        set { _finishedMovement = value; }
+        get { return finishedMovement; }
+        set { finishedMovement = value; }
     }
 
     public Vector3 TargetPosition
     {
-        get { return _targetPos; }
-        set { _targetPos = value; }
+        get { return targetPos; }
+        set { targetPos = value; }
     }
 
     public float RotationSpeed
