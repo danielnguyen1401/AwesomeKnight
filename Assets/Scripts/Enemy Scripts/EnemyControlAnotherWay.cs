@@ -14,7 +14,7 @@ public class EnemyControlAnotherWay : MonoBehaviour
 
     private Vector3 nextDestination;
     private Transform playerTarget;
-    private PlayerHealth playerHealth;
+//    private PlayerHealth playerHealth;
     private float currentAttackTime;
     private int walkIndex;
     private EnemyHealth enemyHealth;
@@ -23,7 +23,7 @@ public class EnemyControlAnotherWay : MonoBehaviour
     {
         playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
         enemyHealth = GetComponent<EnemyHealth>();
-        playerHealth = playerTarget.GetComponent<PlayerHealth>();
+//        playerHealth = playerTarget.GetComponent<PlayerHealth>();
     }
 
     private void Update()

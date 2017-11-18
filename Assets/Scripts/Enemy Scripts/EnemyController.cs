@@ -16,8 +16,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float rotateSpeed = 5f;
 
     private float currentAttackTime;
-    private EnemyState enemyCurrentState = EnemyState.Idle;
-    private EnemyState enemyLastState = EnemyState.Idle;
+    private EnemyState enemyCurrentState = EnemyState.IDLE;
+    private EnemyState enemyLastState = EnemyState.IDLE;
 
     private bool finishedMovement = true;
 
@@ -41,9 +41,9 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         if (enemyHealth.Health <= 0)
-            enemyCurrentState = EnemyState.Death;
+            enemyCurrentState = EnemyState.DEATH;
 
-        if (enemyCurrentState != EnemyState.Death) // if enemy is alive and player is alive
+        if (enemyCurrentState != EnemyState.DEATH) // if enemy is alive and player is alive
         {
             if (playerTarget)
             {
@@ -87,41 +87,41 @@ public class EnemyController : MonoBehaviour
         if (initialDistance > followDistance)
         {
             lastState = curState;
-            curState = EnemyState.GoBack;
+            curState = EnemyState.GOBACK;
         }
         else if (enemyToPlayerDis <= attackDistance)
         {
             lastState = curState;
-            curState = EnemyState.Attack;
+            curState = EnemyState.ATTACK;
         }
-        else if (enemyToPlayerDis >= alertAttackDistance && lastState == EnemyState.Pause ||
-                 lastState == EnemyState.Attack)
+        else if (enemyToPlayerDis >= alertAttackDistance && lastState == EnemyState.PAUSE ||
+                 lastState == EnemyState.ATTACK)
         {
             lastState = curState;
-            curState = EnemyState.Pause;
+            curState = EnemyState.PAUSE;
         }
         else if (enemyToPlayerDis <= alertAttackDistance && enemyToPlayerDis > attackDistance)
         {
-            if (curState != EnemyState.GoBack || lastState == EnemyState.Walk)
+            if (curState != EnemyState.GOBACK || lastState == EnemyState.WALK)
             {
                 lastState = curState;
-                curState = EnemyState.Pause;
+                curState = EnemyState.PAUSE;
             }
         }
-        else if (enemyToPlayerDis > alertAttackDistance && lastState != EnemyState.GoBack ||
-                 lastState != EnemyState.Pause)
+        else if (enemyToPlayerDis > alertAttackDistance && lastState != EnemyState.GOBACK ||
+                 lastState != EnemyState.PAUSE)
         {
             lastState = curState;
-            curState = EnemyState.Walk;
+            curState = EnemyState.WALK;
         }
         return curState;
     }
 
     void GetStateControl(EnemyState curState)
     {
-        if (curState == EnemyState.Pause || curState == EnemyState.Run)
+        if (curState == EnemyState.PAUSE || curState == EnemyState.RUN)
         {
-            if (curState != EnemyState.Attack)
+            if (curState != EnemyState.ATTACK)
             {
                 Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
 
@@ -135,7 +135,7 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
-        else if (curState == EnemyState.Attack)
+        else if (curState == EnemyState.ATTACK)
         {
             anim.SetBool("Run", false);
 //            _whereToMove.Set(0, 0, 0);
@@ -151,7 +151,6 @@ public class EnemyController : MonoBehaviour
             {
                 int atkRange = Random.Range(1, 3);
                 anim.SetInteger("Atk", atkRange);
-//                _finishedAnim = false;
                 currentAttackTime = 0;
             }
             else
@@ -160,7 +159,7 @@ public class EnemyController : MonoBehaviour
                 currentAttackTime += Time.deltaTime;
             }
         }
-        else if (curState == EnemyState.GoBack)
+        else if (curState == EnemyState.GOBACK)
         {
             anim.SetBool("Run", true);
 
@@ -171,10 +170,10 @@ public class EnemyController : MonoBehaviour
             if (Vector3.Distance(targetPos, initialPosition) <= 3.5f)
             {
                 enemyLastState = curState;
-                curState = EnemyState.Walk;
+                curState = EnemyState.WALK;
             }
         }
-        else if (curState == EnemyState.Walk)
+        else if (curState == EnemyState.WALK)
         {
             anim.SetBool("Run", false);
             anim.SetBool("Walk", true);
@@ -202,11 +201,11 @@ public class EnemyController : MonoBehaviour
 
 public enum EnemyState
 {
-    Idle,
-    Walk,
-    Run,
-    Pause,
-    GoBack,
-    Attack,
-    Death
+    IDLE,
+    WALK,
+    RUN,
+    PAUSE,
+    GOBACK,
+    ATTACK,
+    DEATH
 }

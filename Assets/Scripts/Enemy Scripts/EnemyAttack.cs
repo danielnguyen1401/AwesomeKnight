@@ -20,9 +20,7 @@ public class EnemyAttack : MonoBehaviour
     void Update()
     {
         if (finishedAttack)
-        {
             DealDamage(CheckIfAttacking());
-        }
         else
         {
             if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))

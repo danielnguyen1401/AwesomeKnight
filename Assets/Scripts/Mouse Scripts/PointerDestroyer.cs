@@ -7,16 +7,16 @@ public class PointerDestroyer : MonoBehaviour
 
     void Start()
     {
-//        Destroy(gameObject, _distanceToDestroy);
         _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, _player.position) <= _distanceToDestroy)
+        if (_player)
         {
-            Destroy(gameObject);
+            if (Vector3.Distance(transform.position, _player.position) <= _distanceToDestroy)
+                Destroy(gameObject);
         }
     }
 }

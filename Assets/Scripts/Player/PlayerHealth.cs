@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private Image healthImg;
     private float currentHealth;
     private bool isShielded;
     private Animator anim;
@@ -10,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     void Awake()
     {
         currentHealth = maxHealth;
+        healthImg.fillAmount = 1;
         anim = GetComponent<Animator>();
     }
 
@@ -18,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
         if (!isShielded)
         {
             currentHealth -= amount;
+            healthImg.fillAmount = currentHealth / maxHealth;
             if (currentHealth <= 0) // Todo: player die
             {
                 currentHealth = 0;
@@ -28,7 +32,7 @@ public class PlayerHealth : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-            Debug.Log("Player took damge, health: " + currentHealth);
+//            Debug.Log("Player took damge, health: " + currentHealth);
         }
     }
 
@@ -36,9 +40,9 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth += amount;
         if (currentHealth > maxHealth)
-        {
             currentHealth = maxHealth;
-        }
+
+        healthImg.fillAmount = currentHealth / maxHealth;
     }
 
     public bool Shielded
