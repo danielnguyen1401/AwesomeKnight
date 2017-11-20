@@ -10,23 +10,23 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Image _fillWaitImgImage5;
     [SerializeField] private Image _fillWaitImgImage6;
 
-    readonly int[] _fadeImages = new int[] {0, 0, 0, 0, 0, 0};
-    [SerializeField] private Animator anim;
-    [SerializeField] private PlayerMove _playerMove;
-    private bool _canAttack = true;
+    private int[] fadeImages = new int[] {0, 0, 0, 0, 0, 0};
+    private Animator anim;
+    private PlayerMove playerMove;
+    private bool canAttack = true;
 
     void Awake()
     {
-//        anim = GetComponent<Animator>();
-//        _playerMove = GetComponent<PlayerMove>();
+        anim = GetComponent<Animator>();
+        playerMove = GetComponent<PlayerMove>();
     }
 
     void Update()
     {
         if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Stand"))
-            _canAttack = true;
+            canAttack = true;
         else
-            _canAttack = false;
+            canAttack = false;
 
         CheckToFade();
         CheckInput();
@@ -38,70 +38,72 @@ public class PlayerAttack : MonoBehaviour
     {
         if (anim.GetInteger("Atk") == 0)
         {
-            _playerMove.FinishedMovement = false;
+            playerMove.FinishedMovement = false;
 
             if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Stand"))
-                _playerMove.FinishedMovement = true;
+            {
+                playerMove.FinishedMovement = true;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) // Ground Impact
         {
-            _playerMove.TargetPosition = transform.position;
-
-            if (_playerMove.FinishedMovement && _fadeImages[0] != 1 && _canAttack)
+            if (playerMove.FinishedMovement && fadeImages[0] != 1 && canAttack)
             {
-                _fadeImages[0] = 1;
+                fadeImages[0] = 1;
                 anim.SetInteger("Atk", 1);
+                playerMove.TargetPosition = transform.position;
+                RemoveCursor();
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) // Kick
         {
-            _playerMove.TargetPosition = transform.position;
-
-            if (_playerMove.FinishedMovement && _fadeImages[1] != 1 && _canAttack)
+            if (playerMove.FinishedMovement && fadeImages[1] != 1 && canAttack)
             {
-                _fadeImages[1] = 1;
+                fadeImages[1] = 1;
                 anim.SetInteger("Atk", 2);
+                playerMove.TargetPosition = transform.position;
+                RemoveCursor();
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3)) // Fire Tornado
         {
-            _playerMove.TargetPosition = transform.position;
-
-            if (_playerMove.FinishedMovement && _fadeImages[2] != 1 && _canAttack)
+            if (playerMove.FinishedMovement && fadeImages[2] != 1 && canAttack)
             {
-                _fadeImages[2] = 1;
-                anim.SetInteger("Atk", 3); 
+                fadeImages[2] = 1;
+                anim.SetInteger("Atk", 3);
+                playerMove.TargetPosition = transform.position;
+                RemoveCursor();
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4)) // Fire Shield
         {
-            _playerMove.TargetPosition = transform.position;
-
-            if (_playerMove.FinishedMovement && _fadeImages[3] != 1 && _canAttack)
+            if (playerMove.FinishedMovement && fadeImages[3] != 1 && canAttack)
             {
-                _fadeImages[3] = 1;
+                fadeImages[3] = 1;
                 anim.SetInteger("Atk", 4);
+                playerMove.TargetPosition = transform.position;
+                RemoveCursor();
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5)) // Health
         {
-            _playerMove.TargetPosition = transform.position;
-
-            if (_playerMove.FinishedMovement && _fadeImages[4] != 1 && _canAttack)
+            if (playerMove.FinishedMovement && fadeImages[4] != 1 && canAttack)
             {
-                _fadeImages[4] = 1;
+                fadeImages[4] = 1;
                 anim.SetInteger("Atk", 5);
+                playerMove.TargetPosition = transform.position;
+                RemoveCursor();
             }
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            _playerMove.TargetPosition = transform.position;
-
-            if (_playerMove.FinishedMovement && _fadeImages[5] != 1 && _canAttack)
+            if (playerMove.FinishedMovement && fadeImages[5] != 1 && canAttack)
             {
-                _fadeImages[5] = 1;
+                fadeImages[5] = 1;
                 anim.SetInteger("Atk", 6);
+                playerMove.TargetPosition = transform.position;
+                RemoveCursor();
             }
         }
         else
@@ -121,7 +123,8 @@ public class PlayerAttack : MonoBehaviour
                 targetPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             }
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), _playerMove.RotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.LookRotation(targetPos - transform.position), playerMove.RotationSpeed * Time.deltaTime);
         }
     } // check input
 
@@ -131,35 +134,35 @@ public class PlayerAttack : MonoBehaviour
 
     void CheckToFade()
     {
-        if (_fadeImages[0] == 1)
+        if (fadeImages[0] == 1)
         {
             if (FadeAndWait(_fillWaitImgImage1, 1.0f))
-                _fadeImages[0] = 0;
+                fadeImages[0] = 0;
         }
-        if (_fadeImages[1] == 1)
+        if (fadeImages[1] == 1)
         {
             if (FadeAndWait(_fillWaitImgImage2, 0.7f))
-                _fadeImages[1] = 0;
+                fadeImages[1] = 0;
         }
-        if (_fadeImages[2] == 1)
+        if (fadeImages[2] == 1)
         {
             if (FadeAndWait(_fillWaitImgImage3, 0.1f))
-                _fadeImages[2] = 0;
+                fadeImages[2] = 0;
         }
-        if (_fadeImages[3] == 1)
+        if (fadeImages[3] == 1)
         {
             if (FadeAndWait(_fillWaitImgImage4, 0.2f))
-                _fadeImages[3] = 0;
+                fadeImages[3] = 0;
         }
-        if (_fadeImages[4] == 1)
+        if (fadeImages[4] == 1)
         {
             if (FadeAndWait(_fillWaitImgImage5, 0.3f))
-                _fadeImages[4] = 0;
+                fadeImages[4] = 0;
         }
-        if (_fadeImages[5] == 1)
+        if (fadeImages[5] == 1)
         {
             if (FadeAndWait(_fillWaitImgImage6, 0.08f))
-                _fadeImages[5] = 0;
+                fadeImages[5] = 0;
         }
     }
 
@@ -178,7 +181,6 @@ public class PlayerAttack : MonoBehaviour
             fadeImg.gameObject.SetActive(true);
             fadeImg.fillAmount = 1f;
         }
-
         fadeImg.fillAmount -= fadeTime * Time.deltaTime;
 
         if (fadeImg.fillAmount <= 0)
@@ -190,4 +192,11 @@ public class PlayerAttack : MonoBehaviour
     }
 
     #endregion
+
+    private void RemoveCursor()
+    {
+        var cursor = GameObject.FindGameObjectWithTag("Cursor");
+        if (cursor)
+            Destroy(cursor);
+    }
 }
