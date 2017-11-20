@@ -14,10 +14,10 @@ public class EnemyControlAnotherWay : MonoBehaviour
 
     private Vector3 nextDestination;
     private Transform playerTarget;
-//    private PlayerHealth playerHealth;
     private float currentAttackTime;
     private int walkIndex;
     private EnemyHealth enemyHealth;
+//    private PlayerHealth playerHealth;
 
     private void Awake()
     {
@@ -37,10 +37,9 @@ public class EnemyControlAnotherWay : MonoBehaviour
         {
             anim.SetBool("Death", true);
             agent.enabled = false;
-            if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
-                anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+            if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
             {
-                Destroy(gameObject, 1.5f);
+                Destroy(gameObject);
             }
         }
     }
@@ -81,11 +80,9 @@ public class EnemyControlAnotherWay : MonoBehaviour
                 agent.isStopped = true;
                 anim.SetBool("Run", false);
 
-                Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y,
-                    playerTarget.position.z);
+                Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
 
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.LookRotation(targetPos - transform.position), rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), rotateSpeed * Time.deltaTime);
 
                 if (currentAttackTime >= waitAttackTime)
                 {

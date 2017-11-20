@@ -32,8 +32,7 @@ public class EnemyAttack : MonoBehaviour
     {
         bool isAttacking = false;
 
-        if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Atk1") ||
-            anim.GetCurrentAnimatorStateInfo(0).IsName("Atk2"))
+        if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Atk1") ||anim.GetCurrentAnimatorStateInfo(0).IsName("Atk2"))
         {
             if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5f)
             {

@@ -26,13 +26,11 @@ public class PlayerHealth : MonoBehaviour
             {
                 currentHealth = 0;
                 anim.SetBool("Death", true);
-                if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
-                    anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f)
+                if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f)
                 {
                     Destroy(gameObject);
                 }
             }
-//            Debug.Log("Player took damge, health: " + currentHealth);
         }
     }
 

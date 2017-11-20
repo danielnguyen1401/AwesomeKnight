@@ -58,14 +58,15 @@ public class BossControl : MonoBehaviour
             else if (bossStateChecker.BossState == BossState.ATTACK)
             {
                 anim.SetBool("Run", false);
-                Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
+                if (playerTarget)
+                {
+                    Vector3 targetPos = new Vector3(playerTarget.position.x, transform.position.y, playerTarget.position.z);
 
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.LookRotation(targetPos - transform.position), Time.deltaTime * rotateSpeed);
-
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), Time.deltaTime * rotateSpeed);
+                }
                 if (currentAttackTime >= waitAttackTime)
                 {
-                    int atkRange = Random.Range(1, 5);
+                    int atkRange = Random.Range(3, 5);
                     anim.SetInteger("Atk", atkRange);
                     currentAttackTime = 0;
                     finishedAttacking = false;
